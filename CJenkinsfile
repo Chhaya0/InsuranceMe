@@ -1,0 +1,20 @@
+Pipeline{
+agent any
+tools{
+  maven 'M2_HOME'
+   }
+stages{
+  stage('Git Checkout'){
+    steps{
+      echo 'This step  is for cloning git repo to have project in jenkins'
+      git branch: 'main', url: 'https://github.com/Chhaya0/InsuranceMe.git'
+    }
+}
+stage ('Publish the reports HTML')
+{
+  steps{
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Insure_project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+  }
+}
+}
+}
