@@ -1,20 +1,24 @@
-- name: Docker configure in Ec2 Machine
+- name: Docker configure in Ubuntu Machine
   hosts: all
-  become : true
-  connection: ssh
+  become: true
   tasks:
-  - name: updating the New Ec2 Machine 
-    command: sudo apt update
+    - name: Update package repositories
+      apt:
+        update_cache: yes
+      become: yes
 
-  - name: Install Docker
-    command: sudo apt install docker -y
-    become: yes
-    become_user: root
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      become: yes
 
-  - name: Start Docker service
-    command: sudo systemctl start docker
-    become: yes
-    become_user: root
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+      become: yes
 
-  - name: Deploy the Image and Run as Container
-    command: docker run -itd -p 8084:8081 cbabu85/insure-me-app:4.0
+    - name: Deploy the Image and Run as Container
+      command: docker run -itd -p 8084:8081 cbabu85/insure-me-app:4.0
+      become: yes
