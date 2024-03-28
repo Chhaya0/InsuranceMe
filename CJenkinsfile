@@ -10,6 +10,12 @@ stages{
       git branch: 'main', url: 'https://github.com/Chhaya0/InsuranceMe.git'
     }
 }
+ stage ('Create a Package'){
+    steps{
+      echo 'This step will create a package using maven'
+      sh 'mvn package'
+    }
+ }
 stage ('Publish the reports HTML')
 {
   steps{
